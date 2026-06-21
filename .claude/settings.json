@@ -1,0 +1,18 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(echo \"exit: $?\")",
+      "PowerShell($idf = Get-Command idf.py -ErrorAction SilentlyContinue; if \\($idf\\) { \"idf.py: $\\($idf.Source\\)\"; idf.py --version } else { \"idf.py NOT on PATH\"; Test-Path 'C:\\\\esp\\\\v6.0\\\\esp-idf\\\\export.ps1' | ForEach-Object { \"export.ps1 present: $_\" } })",
+      "WebFetch(domain:docs.espressif.com)",
+      "WebSearch",
+      "WebFetch(domain:developer.espressif.com)",
+      "WebFetch(domain:raw.githubusercontent.com)",
+      "Bash(rm -f idf-mc.ps1 idf-mc.sh sdkconfig.worker sdkconfig.gateway)",
+      "Bash(ls sdkconfig* idf-mc*)",
+      "Bash(python -c \"import json;json.load\\(open\\('CMakePresets.json'\\)\\);print\\('CMakePresets.json: valid JSON'\\)\")",
+      "Bash(node -e \"JSON.parse\\(require\\('fs'\\).readFileSync\\('CMakePresets.json'\\)\\);console.log\\('CMakePresets.json: valid JSON \\(node\\)'\\)\")",
+      "Read(//c/esp/v6.0/esp-idf/tools/cmake/**)",
+      "mcp__claude_ai_espressif_sources__search_espressif_sources"
+    ]
+  }
+}

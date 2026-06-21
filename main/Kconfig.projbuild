@@ -1,0 +1,69 @@
+menu "Mesh Network (build role)"
+
+choice MESH_NODE_ROLE
+    prompt "Node role / firmware image to build"
+    default MESH_NODE_ROLE_WORKER
+    help
+        This single ESP-IDF project builds two distinct firmwares that each
+        define their own app_main(): the ESP-NOW worker and the gateway.
+        Exactly one role's source file is compiled per build configuration.
+
+        Pick the role here (or, preferably, let the multi-config defaults files
+        select it: sdkconfig.worker / sdkconfig.gateway). See the README section
+        "Multiple build configurations".
+
+    config MESH_NODE_ROLE_WORKER
+        bool "Worker  (ESP32 + SSD1306 OLED, ESP-NOW sensor node)"
+        help
+            Compiles worker_main.c. Intended target: esp32.
+
+    config MESH_NODE_ROLE_GATEWAY
+        bool "Gateway (ESP32-S3 + ILI9488 TFT, ESP-NOW receiver)"
+        help
+            Compiles gateway_main.c. Intended target: esp32s3. Pulls the
+            atanisoft/esp_lcd_ili9488 managed component (see idf_component.yml).
+
+endchoice
+
+endmenu
+
+menu "Gateway OTA sender"
+    depends on MESH_NODE_ROLE_GATEWAY
+
+choice GATEWAY_OTA_SOURCE
+    prompt "Firmware source for a push"
+    default GATEWAY_OTA_SRC_LOOPBACK
+    help
+        Where the gateway gets the image it pushes to a worker over ESP-NOW.
+
+    config GATEWAY_OTA_SRC_LOOPBACK
+        bool "Loopback (stream the gateway's own running app) - no AP needed"
+        help
+            Sends a copy of the gateway's running firmware to the target worker.
+            Lets you exercise the responder + rollback end-to-end on the bench
+            without an HTTP server. (The worker then runs the gateway image.)
+
+    config GATEWAY_OTA_SRC_HTTP
+        bool "HTTP/HTTPS download (leg 1) then ESP-NOW push (leg 2)"
+        help
+            Connects to an AP, downloads a worker image into a flash staging
+            slot, returns to the ESP-NOW channel, then pushes it. Production path.
+
+endchoice
+
+config GATEWAY_OTA_HTTP_URL
+    string "Firmware image URL"
+    depends on GATEWAY_OTA_SRC_HTTP
+    default "https://example.com/worker.bin"
+
+config GATEWAY_OTA_WIFI_SSID
+    string "Wi-Fi SSID for the leg-1 download"
+    depends on GATEWAY_OTA_SRC_HTTP
+    default "myssid"
+
+config GATEWAY_OTA_WIFI_PASS
+    string "Wi-Fi password for the leg-1 download"
+    depends on GATEWAY_OTA_SRC_HTTP
+    default "mypassword"
+
+endmenu

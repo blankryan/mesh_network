@@ -6,13 +6,12 @@
     "target/esp32.cfg"
   ],
   "idf.currentSetup": "C:\\esp\\v6.0\\esp-idf",
-  "idf.customExtraVars": {
-    "IDF_TARGET": "esp32"
-  },
+  "_comment_idf_target": "Do NOT pin IDF_TARGET here: it is injected into the integrated terminal and overrides the per-preset IDF_TARGET in CMakePresets.json, breaking 'idf.py --preset gateway' (esp32s3) with an esp32/esp32s3 mismatch. Each preset sets its own target.",
+  "idf.customExtraVars": {},
   "clangd.path": "C:\\Espressif\\tools\\esp-clang\\esp-20.1.1_20250829\\esp-clang\\bin\\clangd.exe",
   "clangd.arguments": [
     "--background-index",
     "--query-driver=**",
-    "--compile-commands-dir=c:\\yayan_file\\self_dev\\dev_product\\mesh_network\\build"
+    "--compile-commands-dir=c:\\yayan_file\\self_dev\\dev_product\\mesh_network\\build\\worker"
   ]
 }

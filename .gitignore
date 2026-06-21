@@ -19,6 +19,10 @@
 # Build artifacts and directories
 **/build/
 build/
+# CMake preset build dirs live under build/ (build/worker, build/gateway) -> covered above
+
+# ESP-IDF component manager lockfile (regenerated per configure)
+dependencies.lock
 *.o
 *.a
 *.out
@@ -76,3 +80,5 @@ Desktop.ini
 *.workspace # General workspace files, can be from various tools
 *.suo       # Visual Studio Solution User Options
 *.sln.docstates # Visual Studio
+
+CLAUDE.md
