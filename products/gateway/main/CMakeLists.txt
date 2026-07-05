@@ -3,4 +3,6 @@
 # itself is compiled here. No role selection: this project IS the gateway.
 idf_component_register(SRCS "gateway_main.c"
                        PRIV_REQUIRES esp_lcd driver esp_wifi esp_netif esp_event
-                                     nvs_flash esp_timer)
+                                     nvs_flash esp_timer
+                        REQUIRES esp_lcd_ili9488
+                        )

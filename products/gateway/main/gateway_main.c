@@ -46,13 +46,20 @@
 static const char *TAG = "gateway";
 
 /* ----------------------- display pin map --------------------------- */
-#define LCD_PIN_SCK    14
-#define LCD_PIN_MOSI   21
-#define LCD_PIN_MISO   47
-#define LCD_PIN_CS      1
-#define LCD_PIN_DC      2
-#define LCD_PIN_RST    41
-#define LCD_PIN_BL     42
+// ── Pin map (ESP32-S3-N16R8, free GPIOs) ────────────
+#define LCD_HOST SPI2_HOST
+#define LCD_PIN_SCK 12
+#define LCD_PIN_MOSI 11
+#define LCD_PIN_MISO 13 // reserved for chunk-3 touch (XPT2046 needs MISO)
+#define LCD_PIN_CS 15
+#define LCD_PIN_DC 17
+#define LCD_PIN_RST 16
+#define LCD_PIN_BL 46
+
+// Touch (XPT2046) on the same SPI2 bus, separate CS + IRQ
+#define TOUCH_PIN_CS 18
+#define TOUCH_PIN_IRQ 3
+
 #define LCD_H_RES     320
 #define LCD_V_RES     480
 #define LCD_HOST      SPI2_HOST

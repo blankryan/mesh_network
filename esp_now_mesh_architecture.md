@@ -6,7 +6,8 @@
 |---|---|
 | Target MCUs | ESP32, ESP32-S3, ESP32-C3, ESP32-C5, ESP32-C6 (ESP-IDF v6.0.0) + ESP8266 (see caveat) |
 | Connectivity | ESP-NOW (connectionless Wi-Fi action frames, data-link layer) |
-| Flash | 4 MB - 16 MB |
+| Flash worker (esp32) | 4 MB |
+| Flash gateway (esp32s3) | 16 MB |
 | Bit rate | 1 Mbps default |
 | Payload | 1470 B (ESP-NOW v2.0) / 250 B (v1.0 & ESP8266) |
 

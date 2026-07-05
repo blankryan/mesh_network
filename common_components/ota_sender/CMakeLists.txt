@@ -5,5 +5,5 @@
 idf_component_register(SRCS "ota_sender.c"
                        INCLUDE_DIRS "include"
                        PRIV_REQUIRES app_update esp_partition bootloader_support
-                                     esp_wifi esp_timer driver
+                                     esp_wifi esp_timer driver esp_driver_gpio
                                      esp_netif esp_event esp_http_client esp-tls mbedtls)

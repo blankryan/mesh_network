@@ -1,0 +1,31 @@
+# Worker product overrides, layered on top of the repo-root sdkconfig.defaults
+# by this product's CMakePresets.json:
+#   SDKCONFIG_DEFAULTS = "<repo>/sdkconfig.defaults;<here>/sdkconfig.defaults.worker"
+#
+# The target (esp32) is set by the preset's IDF_TARGET cache variable, not here.
+# There is no CONFIG_MESH_NODE_ROLE_* anymore: the role is the project itself
+# (products/worker compiles worker_main.c, full stop).
+
+# Common defaults shared by EVERY product build (products/worker and
+# products/gateway). Product-specific overrides live in each product directory
+# (products/<p>/sdkconfig.defaults.<p>), which that product's CMakePresets.json
+# layers on top of this file via SDKCONFIG_DEFAULTS. Targets are set by each
+# preset's IDF_TARGET cache variable.
+
+# --- Flash for worker node (esp32) --------------------------------------------------------------------
+# Both reference boards are 4 MB (per the architecture / OTA docs).
+CONFIG_ESPTOOLPY_FLASHSIZE_4MB=y
+
+# --- Partition table: OTA-ready --------------------------------------------- #
+# Two app banks (ota_0 + ota_1, no factory) so esp_ota_* always has a
+# non-running slot to write to. This is the baseline the OTA robustness doc
+# assumes (esp_now_ota_robustness.md, sections 1 & 5). Harmless for the current
+# data-path firmware; required once you wire in ESP-NOW OTA.
+CONFIG_PARTITION_TABLE_TWO_OTA=y
+
+# OTA rollback: safe to enable now that the worker runs a PENDING_VERIFY
+# self-test (common_components/ota_responder) and calls
+# esp_ota_mark_app_valid_cancel_rollback() after a good boot. A crash/hang/
+# power-loss before that confirm auto-rolls back.
+# The bootloader RTC watchdog (CONFIG_BOOTLOADER_WDT_ENABLE) stays on by default.
+CONFIG_BOOTLOADER_APP_ROLLBACK_ENABLE=y

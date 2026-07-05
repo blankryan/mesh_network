@@ -1,6 +1,6 @@
 # ESP-NOW OTA — Robustness & Failure Analysis (ESP-IDF v6.0.0)
 
-Companion to `esp_now_mesh_architecture.md`. Targets: ESP32 / S3 / C3 / C5 / C6 on ESP-IDF v6.0.0, 4 MB flash. (ESP8266 uses RTOS-SDK; its OTA API and otadata layout are older — verify separately if it participates.)
+Companion to `esp_now_mesh_architecture.md`. Targets: ESP32 / S3 / C3 / C5 / C6 on ESP-IDF v6.0.0, 4 MB flash for worker using esp32 and 16 MB flash for gateway using esp32s3. (ESP8266 uses RTOS-SDK; its OTA API and otadata layout are older — verify separately if it participates.)
 
 ---
 
@@ -102,7 +102,8 @@ The flow when `CONFIG_BOOTLOADER_APP_ROLLBACK_ENABLE` is set:
 | `CONFIG_BOOTLOADER_WDT_TIME_MS` | 9000 | Size to boot + self-test | Too short → false rollback of a healthy image; too long → slow recovery |
 | `CONFIG_ESP_TASK_WDT_INIT` (+ panic/reboot) | On | **Keep on** | Catches runtime hangs during the self-test window so rollback can fire |
 | Partition table | — | **Two app slots** (`factory`+`ota_0`, or `ota_0`+`ota_1`) | OTA needs a non-running slot to write to |
-| `CONFIG_PARTITION_TABLE_*` sizes | — | Each `ota_x` ≥ app size, fits 4 MB | Undersized slot → `ESP_ERR_INVALID_SIZE` at `esp_ota_begin` |
+| `CONFIG_PARTITION_TABLE_*` sizes for worker (esp32) | — | Each `ota_x` ≥ app size, fits 4 MB | Undersized slot → `ESP_ERR_INVALID_SIZE` at `esp_ota_begin` |
+| `CONFIG_PARTITION_TABLE_*` sizes for gateway (esp32s3) | — | Each `ota_x` ≥ app size, fits 16 MB | Undersized slot → `ESP_ERR_INVALID_SIZE` at `esp_ota_begin` |
 | `CONFIG_BOOTLOADER_APP_ANTI_ROLLBACK` / `..._APP_SECURE_VERSION` | Off / 0 | **Only if security demands** | Prevents downgrade — but **burns eFuses irreversibly**; requires `ota_0`+`ota_1` (no factory) |
 | Secure Boot v2 / Flash Encryption | Off | Optional | Adds signature verification at `esp_ota_end` and at boot |
 | `CONFIG_BOOTLOADER_SKIP_VALIDATE_ALWAYS` / `..._ON_POWER_ON` | Off | **Keep off** | Skipping the boot-time image check removes the safety net → a real brick path |
@@ -119,7 +120,8 @@ A v6-era extra worth knowing: **Recovery Bootloader / bootloader rollback** supp
 - **WDT timeout shorter than boot + self-test** → a perfectly good image gets rolled back. Measure worst-case startup (incl. flash-encryption/secure-boot overhead, which extends boot time).
 - **Factory-only or single-OTA partition table** → no inactive slot; OTA can't run, or you try to update the running partition → `ESP_ERR_OTA_PARTITION_CONFLICT`.
 - **Missing/misplaced `ota_data` partition** → bootloader can't track state → always boots `factory`; updates appear to "do nothing."
-- **Flash-size mismatch** (building for >4 MB) → partition out of bounds → `ESP_ERR_INVALID_SIZE`.
+- **Flash-size mismatch** (building for >4 MB) for worker (esp32) → partition out of bounds → `ESP_ERR_INVALID_SIZE`.
+- **Flash-size mismatch** (building for >16 MB) for gateway (esp32s3) → partition out of bounds → `ESP_ERR_INVALID_SIZE`.
 - **Bumping anti-rollback `secure_version` casually** → eFuse burned; you can never run or roll back to a lower version. One bad-but-higher image with no acceptable fallback = soft-brick.
 - **Not checking `esp_http_client_is_complete_data_received()`** (leg 1) → a truncated image gets written; `esp_ota_end` *does* catch it, but you waste a cycle — and it's a real brick path if you also skip validation.
 - **Flash encryption + `esp_ota_write_with_offset()` not 16-byte aligned** → write fails. (Out-of-order ESP-NOW packets need offset writes — align them.)

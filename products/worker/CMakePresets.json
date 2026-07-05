@@ -4,11 +4,9 @@
         {
             "name": "worker",
             "displayName": "Worker (ESP32, SSD1306 OLED)",
-            "description": "ESP-NOW sensor node firmware. Layers sdkconfig.defaults.worker on the repo-root sdkconfig.defaults; target esp32 comes from IDF_TARGET below (no set-target needed).",
-            "binaryDir": "${sourceDir}/build",
+            "binaryDir": "build",
             "cacheVariables": {
-                "IDF_TARGET": "esp32",
-                "SDKCONFIG_DEFAULTS": "${sourceDir}/../../sdkconfig.defaults;${sourceDir}/sdkconfig.defaults.worker"
+                "IDF_TARGET": "esp32"
             }
         }
     ]

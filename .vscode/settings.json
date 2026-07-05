@@ -13,6 +13,7 @@
   "clangd.arguments": [
     "--background-index",
     "--query-driver=**",
-    "--compile-commands-dir=c:\\yayan_file\\self_dev\\dev_product\\mesh_network\\products\\worker\\build"
+    // "--compile-commands-dir=c:\\yayan_file\\self_dev\\dev_product\\mesh_network\\products\\worker\\build" // compile database for worker (esp32) uncomment if u edit the worker
+    "--compile-commands-dir=c:\\yayan_file\\self_dev\\dev_product\\mesh_network\\products\\gateway\\build"   // compile database for gateway (esp32s3) uncomment if u edit gateway
   ]
 }
