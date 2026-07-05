@@ -1,0 +1,16 @@
+# Shared in-repo components, pulled in with `path:` dependencies (relative to
+# this file). If a shared component later moves to its own git repository,
+# only the reference changes here, e.g.:
+#   mesh_proto:
+#     git: "https://github.com/blankryan/mesh_components.git"
+#     path: "mesh_proto"        # subdirectory inside that repo
+#     version: "v1.0.0"         # any git ref
+dependencies:
+  idf:
+    version: ">=6.0.0"
+  mesh_proto:
+    path: "../../../common_components/mesh_proto"
+  font5x7:
+    path: "../../../common_components/font5x7"
+  ota_responder:
+    path: "../../../common_components/ota_responder"

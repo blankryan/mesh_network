@@ -1,0 +1,15 @@
+{
+    "version": 3,
+    "configurePresets": [
+        {
+            "name": "gateway",
+            "displayName": "Gateway (ESP32-S3, ILI9488 TFT)",
+            "description": "ESP-NOW receiver firmware. Layers sdkconfig.defaults.gateway on the repo-root sdkconfig.defaults; target esp32s3 comes from IDF_TARGET below (no set-target needed).",
+            "binaryDir": "${sourceDir}/build",
+            "cacheVariables": {
+                "IDF_TARGET": "esp32s3",
+                "SDKCONFIG_DEFAULTS": "${sourceDir}/../../sdkconfig.defaults;${sourceDir}/sdkconfig.defaults.gateway"
+            }
+        }
+    ]
+}

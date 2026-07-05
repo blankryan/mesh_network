@@ -1,0 +1,2 @@
+version: "1.0.0"
+description: "Compact 5x7 bitmap font (header-only) shared by the SSD1306 and ILI9488 UIs"

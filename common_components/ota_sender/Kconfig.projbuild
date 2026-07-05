@@ -1,34 +1,10 @@
-menu "Mesh Network (build role)"
-
-choice MESH_NODE_ROLE
-    prompt "Node role / firmware image to build"
-    default MESH_NODE_ROLE_WORKER
-    help
-        This single ESP-IDF project builds two distinct firmwares that each
-        define their own app_main(): the ESP-NOW worker and the gateway.
-        Exactly one role's source file is compiled per build configuration.
-
-        Pick the role here (or, preferably, let the multi-config defaults files
-        select it: sdkconfig.worker / sdkconfig.gateway). See the README section
-        "Multiple build configurations".
-
-    config MESH_NODE_ROLE_WORKER
-        bool "Worker  (ESP32 + SSD1306 OLED, ESP-NOW sensor node)"
-        help
-            Compiles worker_main.c. Intended target: esp32.
-
-    config MESH_NODE_ROLE_GATEWAY
-        bool "Gateway (ESP32-S3 + ILI9488 TFT, ESP-NOW receiver)"
-        help
-            Compiles gateway_main.c. Intended target: esp32s3. Pulls the
-            atanisoft/esp_lcd_ili9488 managed component (see idf_component.yml).
-
-endchoice
-
-endmenu
+# This menu used to live in main/Kconfig.projbuild guarded by
+# `depends on MESH_NODE_ROLE_GATEWAY`. Now that the gateway is its own product
+# and this component is only a dependency of that product, the guard (and the
+# whole MESH_NODE_ROLE choice) is gone: the menu simply doesn't exist in the
+# worker's menuconfig because the worker never pulls this component in.
 
 menu "Gateway OTA sender"
-    depends on MESH_NODE_ROLE_GATEWAY
 
 choice GATEWAY_OTA_SOURCE
     prompt "Firmware source for a push"

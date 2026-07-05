@@ -1,0 +1,5 @@
+# Shared, header-only packet-format component. Having a manifest (with a
+# version) here makes it trivial to later publish this component to its own
+# git repo / the component registry: consumers only swap `path:` for `git:`.
+version: "1.0.0"
+description: "Shared ESP-NOW packet format for the worker <-> gateway link"

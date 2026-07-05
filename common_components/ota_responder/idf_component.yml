@@ -1,0 +1,10 @@
+# Component-to-component `path:` dependency: relative paths in a manifest are
+# resolved against the directory containing this file, so shared components can
+# depend on each other and still be moved to git later (path: -> git:).
+version: "1.0.0"
+description: "Responder-side ESP-NOW OTA (worker): chunked receive, resume, PENDING_VERIFY rollback gate"
+dependencies:
+  idf:
+    version: ">=6.0.0"
+  mesh_proto:
+    path: "../mesh_proto"

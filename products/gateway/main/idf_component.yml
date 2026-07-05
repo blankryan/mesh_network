@@ -1,0 +1,19 @@
+# ILI9488 over SPI is provided by the atanisoft managed component. v1.1.0+
+# adds ESP-IDF v6.0 compatibility (rgb_ele_order API). Now that the gateway is
+# its own product, the old `rules: if target == esp32s3` gate is gone: only
+# this project declares the dependency, so the worker never downloads it.
+#
+# Shared in-repo components come in with `path:` dependencies (relative to this
+# file). To move one to its own git repo later, swap `path:` for `git:` (+ the
+# in-repo `path:` subfolder and a `version:` git ref).
+dependencies:
+  idf:
+    version: ">=6.0.0"
+  atanisoft/esp_lcd_ili9488:
+    version: "^1.1.1"
+  mesh_proto:
+    path: "../../../common_components/mesh_proto"
+  font5x7:
+    path: "../../../common_components/font5x7"
+  ota_sender:
+    path: "../../../common_components/ota_sender"

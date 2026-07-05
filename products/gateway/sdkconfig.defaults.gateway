@@ -1,0 +1,17 @@
+# Gateway product overrides, layered on top of the repo-root sdkconfig.defaults
+# by this product's CMakePresets.json:
+#   SDKCONFIG_DEFAULTS = "<repo>/sdkconfig.defaults;<here>/sdkconfig.defaults.gateway"
+#
+# The target (esp32s3) is set by the preset's IDF_TARGET cache variable, not here.
+# There is no CONFIG_MESH_NODE_ROLE_* anymore: the role is the project itself
+# (products/gateway compiles gateway_main.c, full stop).
+
+# Needed only when the OTA sender's source is HTTP/HTTPS (CONFIG_GATEWAY_OTA_SRC_HTTP):
+# esp_crt_bundle_attach() requires the certificate bundle. Harmless (and
+# gc-stripped) for the default loopback source. The "Gateway OTA sender" menu
+# itself now comes from common_components/ota_sender/Kconfig.projbuild.
+CONFIG_MBEDTLS_CERTIFICATE_BUNDLE=y
+
+# OTA rollback stays OFF for the gateway until it has its own self-test +
+# esp_ota_mark_app_valid_cancel_rollback() call, otherwise every gateway OTA
+# would revert on its second boot (esp_now_ota_robustness.md, section 6).

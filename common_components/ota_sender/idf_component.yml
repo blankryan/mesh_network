@@ -1,0 +1,7 @@
+version: "1.0.0"
+description: "Initiator-side ESP-NOW OTA (gateway): loopback or HTTP source, stop-and-wait push"
+dependencies:
+  idf:
+    version: ">=6.0.0"
+  mesh_proto:
+    path: "../mesh_proto"
