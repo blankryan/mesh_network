@@ -1,4 +1,5 @@
-# ESP-NOW Worker <-> Gateway (ESP-IDF v6.0.0)
+# **oops-32** - Mesh Network Architecture using ESP-NOW
+oops-32 is the open source project where is create and implement the hobbies to the real world. The mesh network architecture using espressif protocol ESP_NOW. Build on **ESP-IDF v6.0.0** framework.
 
 Two-node ESP-NOW link demonstrating the data path from the architecture and
 robustness docs on real hardware:
